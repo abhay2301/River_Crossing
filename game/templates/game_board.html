@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static game_tags %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="display-5 mb-4">River Crossing Game</h1>
+    <div class="row justify-content-center">
+        <!-- Left Bank -->
+        <div class="col-md-4">
+            <div class="card shadow-sm bank left-bank">
+                <div class="card-header bg-success text-white">
+                    <h3>Left Bank</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        {% for item in state.left %}
+                            <li class="item">{{ item|capfirst }} {{ item|item_icon }}</li>
+                        {% empty %}
+                            <li><em>Empty</em></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- River and Boat -->
+        <div class="col-md-4 river">
+            <div class="boat {% if state.boat_side == 'left' %}boat-left{% else %}boat-right{% endif %}">
+                ⛵
+            </div>
+        </div>
+        <!-- Right Bank -->
+        <div class="col-md-4">
+            <div class="card shadow-sm bank right-bank">
+                <div class="card-header bg-success text-white">
+                    <h3>Right Bank</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        {% for item in state.right %}
+                            <li class="item">{{ item|capfirst }} {{ item|item_icon }}</li>
+                        {% empty %}
+                            <li><em>Empty</em></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Game Message -->
+    {% if state.message %}
+        <div class="alert {% if state.message == 'You win!' %}alert-success{% else %}alert-danger{% endif %} mt-4">
+            {{ state.message }}
+        </div>
+    {% endif %}
+    <!-- Move Form or Restart -->
+    {% if not state.game_over %}
+        <div class="card shadow-sm mt-4 mx-auto" style="max-width: 400px;">
+            <div class="class-body">
+                <h4>Move (Boat on {{ state.boat_side|capfirst }} bank)</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="choice" value="alone" id="alone" required>
+                        <label class="form-check-label" for="alone">Farmer alone 👨‍🌾</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="choice" value="goat" id="goat">
+                        <label class="form-check-label" for="goat">Farmer with Goat 🐐</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="choice" value="wolf" id="wolf">
+                        <label class="form-check-label" for="wolf">Farmer with Wolf 🐺</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="choice" value="cabbage" id="cabbage">
+                        <label class="form-check-label" for="cabbage">Farmer with Cabbage 🥬</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Make Move</button>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <a href="{% url 'restart' %}" class="btn btn-success btn-lg mt-4">Restart Game</a>
+    {% endif %}
+</div>
+<script>
+    // Simple boat animation
+    document.querySelector('form').addEventListener('submit', function() {
+        document.querySelector('.boat').classList.add('boat-moving');
+        setTimeout(() => {
+            document.querySelector('.boat').classList.remove('boat-moving');
+        }, 500);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,57 @@
+body {
+    background: linear-gradient(to bottom, #e0f7fa, #b3e5fc);
+}
+
+.river {
+    background: linear-gradient(to bottom, #4fc3f7, #0288d1);
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.boat {
+    font-size: 2rem;
+    transition: transform 0.5s ease;
+}
+
+.boat-left {
+    transform: translateX(-50%);
+}
+
+.boat-right {
+    transform: translateX(50%);
+}
+
+.boat-moving {
+    animation: moveBoat 0.5s ease;
+}
+
+@keyframes moveBoat {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+}
+
+.bank {
+    min-height: 200px;
+}
+
+.left-bank {
+    border-right: 2px solid #0288d1;
+}
+
+.right-bank {
+    border-left: 2px solid #0288d1;
+}
+
+.item {
+    font-size: 1.2rem;
+    margin: 10px 0;
+}
+
+.alert {
+    max-width: 600px;
+    margin: 20px auto;
+}

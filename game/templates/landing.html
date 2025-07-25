@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="display-4 mb-4">River Crossing Game</h1>
+    <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
+        <div class="card-body">
+            <p class="lead">
+                Help the farmer cross the river with a goat 🐐, a wolf 🐺, and a cabbage 🥬! 
+                The boat ⛵ can only carry the farmer 👨‍🌾 and one item at a time. 
+                Be careful: if left alone, the goat will eat the cabbage, and the wolf will eat the goat!
+            </p>
+            <a href="{% url 'game' %}" class="btn btn-primary btn-lg mt-3">Start Game</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
